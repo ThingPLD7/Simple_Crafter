@@ -42,12 +42,44 @@ Module MainInterface
 
         KeyboardMapperFFXIV.Run("D:\\Dummy FXIV Crafter\\Keyboard-Mapping.txt")
 
-        Console.WriteLine("The ability name is: " + KeyboardMapperFFXIV.getAbilityName(0) + ". The mapping is: " + KeyboardMapperFFXIV.getabilityKeyboardMapping(0))
+        Console.WriteLine("The ability name is: " + KeyboardMapperFFXIV.getAbilityName(2) + ". The mapping is: " + KeyboardMapperFFXIV.getabilityKeyboardMapping(2))
 
-        Dim Rotation1 As TextFileReader.readRotationFromTextFile = New readRotationFromTextFile()
-        Rotation1.setRotationFileName("D:\\Dummy FXIV Crafter\\Mastercraft_Level_70.txt")
-        Rotation1.readRotationTextFile()
-        Rotation1.printTextFileToConsole()
+        Dim CraftingRotation As TextFileReader.readRotationFromTextFile = New readRotationFromTextFile()
+        CraftingRotation.setRotationFileName("D:\\Dummy FXIV Crafter\\Mastercraft_Level_70.txt")
+        CraftingRotation.readRotationTextFile()
+        CraftingRotation.printTextFileToConsole()
+
+        Dim abilityRotationKeys(CraftingRotation.getLineCounter) As String
+        Dim searchingIndex, index As Integer
+        Dim abilityClean1(2), abilityClean2(2) As String
+        index = 0
+
+        While index < CraftingRotation.getLineCounter
+            searchingIndex = 0
+
+            abilityClean1 = Split(CraftingRotation.getLineInput(index), " <")
+            abilityClean2 = Split(abilityClean1(0), "/ac ")
+
+            While searchingIndex < KeyboardMapperFFXIV.indexAbility
+
+                If abilityClean2(1) = KeyboardMapperFFXIV.getAbilityName(searchingIndex) Then
+
+                    abilityRotationKeys(index) = KeyboardMapperFFXIV.getabilityKeyboardMapping(searchingIndex)
+                    Console.WriteLine(abilityRotationKeys(index))
+
+                    searchingIndex = KeyboardMapperFFXIV.indexAbility
+
+                End If
+
+                searchingIndex = searchingIndex + 1
+
+            End While
+
+            index = index + 1
+
+        End While
+
+
 
         If userOption > 0 Then
 

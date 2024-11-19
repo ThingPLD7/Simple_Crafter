@@ -2,6 +2,7 @@
     Dim abilityName() As String
     Dim abilityKeyboardMapping() As String
     Dim KeyboardMappingTextFile As TextFileReader.readRotationFromTextFile = New readRotationFromTextFile()
+    Public indexAbility As Integer
 
     Public Sub Run(keyboardMappingFilePath As String)
 
@@ -19,20 +20,20 @@
     Public Sub KeyboardRotationMap()
 
         Dim strLine As String
-        Dim index As Integer
+
         Dim strSeperationHolder(2) As String
 
-        index = 0
+        indexAbility = 0
 
-        While index < KeyboardMappingTextFile.getLineCounter
+        While indexAbility < KeyboardMappingTextFile.getLineCounter
 
-            strLine = KeyboardMappingTextFile.getLineInput(index)
+            strLine = KeyboardMappingTextFile.getLineInput(indexAbility)
             strSeperationHolder = Split(strLine, "=")
 
-            setAbilityName(strSeperationHolder(0), index)
-            setabilityKeyboardMapping(strSeperationHolder(1), index)
+            setAbilityName(strSeperationHolder(0), indexAbility)
+            setabilityKeyboardMapping(strSeperationHolder(1), indexAbility)
 
-            index = index + 1
+            indexAbility = indexAbility + 1
 
         End While
 
