@@ -1,66 +1,83 @@
 ﻿Module KeyboardMapperFFXIV
-    Dim abilityName() As String
-    Dim abilityKeyboardMapping() As String
-    Dim KeyboardMappingTextFile As TextFileReader.readRotationFromTextFile = New readRotationFromTextFile()
-    Public indexAbility As Integer
 
-    Public Sub Run(keyboardMappingFilePath As String)
+    Class KeyboardMapper
 
-        KeyboardMappingTextFile.setRotationFileName(keyboardMappingFilePath)
-        KeyboardMappingTextFile.readRotationTextFile()
-        KeyboardMappingTextFile.printTextFileToConsole()
+        Dim abilityName() As String
+        Dim abilityKeyboardMapping() As String
+        Dim KeyboardMappingTextFile As TextFileReader.readRotationFromTextFile = New readRotationFromTextFile()
+        Dim indexAbility As Integer
 
-        ReDim abilityName(KeyboardMappingTextFile.getLineCounter)
-        ReDim abilityKeyboardMapping(KeyboardMappingTextFile.getLineCounter)
+        Public Sub Initialize()
 
-        KeyboardRotationMap()
+            ' Initialize the KeyboardMapperFFXIV
 
-    End Sub
+        End Sub
 
-    Public Sub KeyboardRotationMap()
+        Public Sub Run(keyboardMappingFilePath As String)
 
-        Dim strLine As String
+            KeyboardMappingTextFile.setRotationFileName(keyboardMappingFilePath)
+            KeyboardMappingTextFile.readRotationTextFile()
+            KeyboardMappingTextFile.printTextFileToConsole()
 
-        Dim strSeperationHolder(2) As String
+            ReDim abilityName(KeyboardMappingTextFile.getLineCounter)
+            ReDim abilityKeyboardMapping(KeyboardMappingTextFile.getLineCounter)
 
-        indexAbility = 0
+            KeyboardRotationMap()
 
-        While indexAbility < KeyboardMappingTextFile.getLineCounter
+        End Sub
 
-            strLine = KeyboardMappingTextFile.getLineInput(indexAbility)
-            strSeperationHolder = Split(strLine, "=")
+        Public Sub KeyboardRotationMap()
 
-            setAbilityName(strSeperationHolder(0), indexAbility)
-            setabilityKeyboardMapping(strSeperationHolder(1), indexAbility)
+            Dim strLine As String
 
-            indexAbility = indexAbility + 1
+            Dim strSeperationHolder(2) As String
 
-        End While
+            indexAbility = 0
 
-    End Sub
+            While indexAbility < KeyboardMappingTextFile.getLineCounter
 
-    Private Sub setAbilityName(buttonName As String, index As Integer)
+                strLine = KeyboardMappingTextFile.getLineInput(indexAbility)
+                strSeperationHolder = Split(strLine, ": ")
 
-        abilityName(index) = buttonName
+                setAbilityName(strSeperationHolder(0), indexAbility)
+                setabilityKeyboardMapping(strSeperationHolder(1), indexAbility)
 
-    End Sub
+                indexAbility = indexAbility + 1
 
-    Public Function getAbilityName(index As Integer) As String
+            End While
 
-        Return abilityName(index)
+        End Sub
 
-    End Function
+        Private Sub setAbilityName(buttonName As String, index As Integer)
 
-    Private Sub setabilityKeyboardMapping(buttonMapping As String, index As Integer)
+            abilityName(index) = buttonName
 
-        abilityKeyboardMapping(index) = buttonMapping
+        End Sub
 
-    End Sub
+        Public Function getAbilityName(index As Integer) As String
 
-    Public Function getabilityKeyboardMapping(index As Integer) As String
+            Return abilityName(index)
 
-        Return abilityKeyboardMapping(index)
+        End Function
 
-    End Function
+        Private Sub setabilityKeyboardMapping(buttonMapping As String, index As Integer)
+
+            abilityKeyboardMapping(index) = buttonMapping
+
+        End Sub
+
+        Public Function getabilityKeyboardMapping(index As Integer) As String
+
+            Return abilityKeyboardMapping(index)
+
+        End Function
+
+        Public Function getIndexAbility() As Integer
+
+            Return indexAbility
+
+        End Function
+
+    End Class
 
 End Module

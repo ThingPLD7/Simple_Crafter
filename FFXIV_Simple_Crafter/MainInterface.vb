@@ -1,5 +1,6 @@
 ﻿Imports System.IO
 Imports System.Net.Mail
+Imports System.Reflection
 Imports System.Threading
 Imports Microsoft.VisualBasic.Devices
 
@@ -9,11 +10,13 @@ Module MainInterface
     Dim amountToCraft, userOption As Object
     Dim startTime As Object
     Dim totalTimeForCraft As Object
+    Dim CraftingRotation As TextFileReader.readRotationFromTextFile = New readRotationFromTextFile()
+    Dim MappedKeys As KeyboardMapperFFXIV.KeyboardMapper = New KeyboardMapper()
+
+    Dim abilityRotationKeys() As String
+    Dim abilityCooldownValues() As Double
 
     Sub Main()
-
-        Dim itemsMade As Integer
-        itemsMade = 0
 
         ' Shift is "+{}"
         ' CTRL is "^{}"
@@ -27,7 +30,7 @@ Module MainInterface
         Console.WriteLine("-------------------------------------------------------------")
 
         Console.WriteLine("Tracking food timer: ")
-        userOption = Console.ReadLine(userOption)
+        ' userOption = Console.ReadLine(userOption)
 
         Console.WriteLine("Tracking food timer: ")
         Console.WriteLine("Tracking pot timer: ")
@@ -40,107 +43,19 @@ Module MainInterface
         Console.WriteLine("Enter an option from above:")
 
 
-        KeyboardMapperFFXIV.Run("D:\\Dummy FXIV Crafter\\Keyboard-Mapping.txt")
+        MappedKeys.Run("D:\\Dummy FXIV Crafter\\Keyboard-Mapping.txt")
 
-        Console.WriteLine("The ability name is: " + KeyboardMapperFFXIV.getAbilityName(2) + ". The mapping is: " + KeyboardMapperFFXIV.getabilityKeyboardMapping(2))
+        Console.WriteLine("The ability name is: " + MappedKeys.getAbilityName(2) + ". The mapping is: " + MappedKeys.getabilityKeyboardMapping(2))
 
-        Dim CraftingRotation As TextFileReader.readRotationFromTextFile = New readRotationFromTextFile()
-        CraftingRotation.setRotationFileName("D:\\Dummy FXIV Crafter\\Mastercraft_Level_70.txt")
+
+        CraftingRotation.setRotationFileName("D:\\Dummy FXIV Crafter\\Fantoio Oil.txt")
         CraftingRotation.readRotationTextFile()
         CraftingRotation.printTextFileToConsole()
 
-        Dim abilityRotationKeys(CraftingRotation.getLineCounter) As String
-        Dim searchingIndex, index As Integer
-        Dim abilityClean1(2), abilityClean2(2) As String
-        index = 0
+        amountToCraft = 4
 
-        While index < CraftingRotation.getLineCounter
-            searchingIndex = 0
-
-            abilityClean1 = Split(CraftingRotation.getLineInput(index), " <")
-            abilityClean2 = Split(abilityClean1(0), "/ac ")
-
-            While searchingIndex < KeyboardMapperFFXIV.indexAbility
-
-                If abilityClean2(1) = KeyboardMapperFFXIV.getAbilityName(searchingIndex) Then
-
-                    abilityRotationKeys(index) = KeyboardMapperFFXIV.getabilityKeyboardMapping(searchingIndex)
-                    Console.WriteLine(abilityRotationKeys(index))
-
-                    searchingIndex = KeyboardMapperFFXIV.indexAbility
-
-                End If
-
-                searchingIndex = searchingIndex + 1
-
-            End While
-
-            index = index + 1
-
-        End While
-
-
-
-        If userOption > 0 Then
-
-            'create push back
-
-        End If
-
-        Console.WriteLine(Microsoft.VisualBasic.Timer)
-
-        amountToCraft = 55
-
-        My.Computer.Keyboard.SendKeys("{,}", True)
-
-        While itemsMade < amountToCraft
-
-            My.Computer.Keyboard.SendKeys("{f}", True)
-            waitTimeCooldown(4)
-            My.Computer.Keyboard.SendKeys("+{5}", True)
-            waitTimeCooldown(2.5)
-            My.Computer.Keyboard.SendKeys("+{-}", True)
-            waitTimeCooldown(2.1)
-            My.Computer.Keyboard.SendKeys("+{8}", True)
-            waitTimeCooldown(2.1)
-            My.Computer.Keyboard.SendKeys("{9}", True)
-            waitTimeCooldown(2.1)
-            My.Computer.Keyboard.SendKeys("{5}", True)
-            waitTimeCooldown(2.5)
-            My.Computer.Keyboard.SendKeys("{5}", True)
-            waitTimeCooldown(2.5)
-            My.Computer.Keyboard.SendKeys("{5}", True)
-            waitTimeCooldown(2.5)
-            My.Computer.Keyboard.SendKeys("+{2}", True)
-            waitTimeCooldown(2.1)
-            My.Computer.Keyboard.SendKeys("{5}", True)
-            waitTimeCooldown(2.5)
-            My.Computer.Keyboard.SendKeys("%{9}", True)
-            waitTimeCooldown(2.1)
-            My.Computer.Keyboard.SendKeys("%{6}", True)
-            waitTimeCooldown(2.5)
-            My.Computer.Keyboard.SendKeys("%{6}", True)
-            waitTimeCooldown(2.5)
-            My.Computer.Keyboard.SendKeys("%{6}", True)
-            waitTimeCooldown(2.5)
-            My.Computer.Keyboard.SendKeys("+{=}", True)
-            waitTimeCooldown(2.1)
-            My.Computer.Keyboard.SendKeys("%{9}", True)
-            waitTimeCooldown(2.1)
-            My.Computer.Keyboard.SendKeys("%{6}", True)
-            waitTimeCooldown(2.5)
-            My.Computer.Keyboard.SendKeys("%{6}", True)
-            waitTimeCooldown(2.5)
-            My.Computer.Keyboard.SendKeys("+{6}", True)
-            waitTimeCooldown(2.5)
-            My.Computer.Keyboard.SendKeys("+{3}", True)
-            waitTimeCooldown(2.5)
-            My.Computer.Keyboard.SendKeys("{2}", True)
-
-            waitTimeCooldown(5.0)
-            My.Computer.Keyboard.SendKeys("{f}", True)
-            itemsMade = itemsMade + 1
-        End While
+        RotationBuilder()
+        Craft(amountToCraft)
 
     End Sub
 
@@ -152,6 +67,86 @@ Module MainInterface
 
             'wait for time
 
+        End While
+
+    End Sub
+
+
+
+    Private Sub RotationBuilder()
+
+        ReDim abilityRotationKeys(CraftingRotation.getLineCounter)
+        ReDim abilityCooldownValues(CraftingRotation.getLineCounter)
+        Dim searchingIndex, index As Integer
+        Dim abilityClean1(2), abilityClean2(2) As String
+        index = 0
+
+        While index < CraftingRotation.getLineCounter
+            searchingIndex = 0
+
+            abilityClean1 = Split(CraftingRotation.getLineInput(index), " <")
+            abilityClean2 = Split(abilityClean1(0), "/ac ")
+
+            If InStr(abilityClean1(1), "2") Then
+
+                abilityCooldownValues(index) = 2.1
+
+            Else
+
+                abilityCooldownValues(index) = 2.5
+
+            End If
+
+            While searchingIndex < MappedKeys.getIndexAbility
+
+                If abilityClean2(1) = MappedKeys.getAbilityName(searchingIndex) Then
+
+                    abilityRotationKeys(index) = MappedKeys.getabilityKeyboardMapping(searchingIndex)
+
+                    searchingIndex = MappedKeys.getIndexAbility
+
+                End If
+
+                searchingIndex = searchingIndex + 1
+
+            End While
+
+            index = index + 1
+
+        End While
+
+    End Sub
+
+    Private Sub Craft(amountToCraft As Integer)
+
+        Dim itemsMade, craftingStep As Integer
+        itemsMade = 0
+
+        My.Computer.Keyboard.SendKeys("{,}", True)
+
+        While itemsMade < amountToCraft
+
+            waitTimeCooldown(0.2)
+
+            My.Computer.Keyboard.SendKeys("{f}", True)
+            waitTimeCooldown(2.9)
+
+            craftingStep = 0
+
+            While craftingStep < CraftingRotation.getLineCounter
+
+                My.Computer.Keyboard.SendKeys(abilityRotationKeys(craftingStep), abilityCooldownValues(craftingStep))
+                waitTimeCooldown(2.5)
+                'Console.WriteLine(abilityRotationKeys(craftingStep) + " " + Str(abilityCooldownValues(craftingStep)))
+                craftingStep = craftingStep + 1
+
+            End While
+
+            waitTimeCooldown(3.2)
+
+            My.Computer.Keyboard.SendKeys("{f}", True)
+
+            itemsMade = itemsMade + 1
         End While
 
     End Sub
