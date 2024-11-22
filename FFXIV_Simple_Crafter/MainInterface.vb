@@ -22,11 +22,13 @@ Module MainInterface
         ' CTRL is "^{}"
         ' ALT is "%{}"
 
-        FFXIV_ID = "FINAL FANTASY XIV"
+        FolderCreatorUser.CreateOrAccessFolder()
 
-        AppActivate(FFXIV_ID)
 
-        Console.WriteLine("The document ID is: " + FFXIV_ID)
+        'FFXIV_ID = "FINAL FANTASY XIV"
+
+        'AppActivate(FFXIV_ID)
+
         Console.WriteLine("-------------------------------------------------------------")
 
         Console.WriteLine("Tracking food timer: ")
@@ -42,17 +44,16 @@ Module MainInterface
         Console.WriteLine("3. Choose the Textfile Above")
         Console.WriteLine("Enter an option from above:")
 
-
         MappedKeys.Run("D:\\Dummy FXIV Crafter\\Keyboard-Mapping.txt")
 
-        Console.WriteLine("The ability name is: " + MappedKeys.getAbilityName(2) + ". The mapping is: " + MappedKeys.getabilityKeyboardMapping(2))
+        'Console.WriteLine("The ability name is: " + MappedKeys.getAbilityName(2) + ". The mapping is: " + MappedKeys.getabilityKeyboardMapping(2))
 
 
-        CraftingRotation.setRotationFileName("D:\\Dummy FXIV Crafter\\Fantoio Oil.txt")
+        CraftingRotation.setRotationFileName("D:\\Dummy FXIV Crafter\\Mastercraft_Level_70.txt")
         CraftingRotation.readRotationTextFile()
         CraftingRotation.printTextFileToConsole()
 
-        amountToCraft = 4
+        amountToCraft = 36
 
         RotationBuilder()
         Craft(amountToCraft)
@@ -122,19 +123,21 @@ Module MainInterface
         Dim itemsMade, craftingStep As Integer
         itemsMade = 0
 
+        AppActivate(FFXIV_ID)
         My.Computer.Keyboard.SendKeys("{,}", True)
 
         While itemsMade < amountToCraft
 
-            waitTimeCooldown(0.2)
-
+            waitTimeCooldown(0.5)
+            AppActivate(FFXIV_ID)
             My.Computer.Keyboard.SendKeys("{f}", True)
-            waitTimeCooldown(2.9)
+            waitTimeCooldown(2.2)
 
             craftingStep = 0
 
             While craftingStep < CraftingRotation.getLineCounter
 
+                AppActivate(FFXIV_ID)
                 My.Computer.Keyboard.SendKeys(abilityRotationKeys(craftingStep), abilityCooldownValues(craftingStep))
                 waitTimeCooldown(2.5)
                 'Console.WriteLine(abilityRotationKeys(craftingStep) + " " + Str(abilityCooldownValues(craftingStep)))
@@ -142,8 +145,8 @@ Module MainInterface
 
             End While
 
-            waitTimeCooldown(3.2)
-
+            waitTimeCooldown(3.4)
+            AppActivate(FFXIV_ID)
             My.Computer.Keyboard.SendKeys("{f}", True)
 
             itemsMade = itemsMade + 1
