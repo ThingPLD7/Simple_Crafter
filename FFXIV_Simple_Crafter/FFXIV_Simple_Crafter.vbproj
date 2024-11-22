@@ -69,6 +69,7 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ConsoleMenuNavigation.vb" />
     <Compile Include="FolderCreatorUser.vb" />
     <Compile Include="KeyboardMapperFFXIV.vb" />
     <Compile Include="MainInterface.vb" />

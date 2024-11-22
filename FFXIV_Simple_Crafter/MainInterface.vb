@@ -24,25 +24,24 @@ Module MainInterface
 
         FolderCreatorUser.CreateOrAccessFolder()
 
-
         'FFXIV_ID = "FINAL FANTASY XIV"
 
         'AppActivate(FFXIV_ID)
 
-        Console.WriteLine("-------------------------------------------------------------")
+        ConsoleMenuNavigation.PrintMenu()
 
-        Console.WriteLine("Tracking food timer: ")
-        ' userOption = Console.ReadLine(userOption)
-
-        Console.WriteLine("Tracking food timer: ")
-        Console.WriteLine("Tracking pot timer: ")
-        Console.WriteLine("-------------------------------------------------------------")
-        Console.WriteLine("Will print notepad.txts below")
-        Console.WriteLine("-------------------------------------------------------------")
-        Console.WriteLine("1. Use Food")
-        Console.WriteLine("2. Use Pots")
-        Console.WriteLine("3. Choose the Textfile Above")
+        FolderCreatorUser.printListOfCrafts()
         Console.WriteLine("Enter an option from above:")
+
+        userOption = Console.ReadLine(userOption)
+
+        While FolderCreatorUser.CraftChosen(userOption)
+
+            Console.WriteLine("Please chose a valid option.")
+            userOption = Console.ReadLine(userOption)
+
+        End While
+
 
         MappedKeys.Run("D:\\Dummy FXIV Crafter\\Keyboard-Mapping.txt")
 

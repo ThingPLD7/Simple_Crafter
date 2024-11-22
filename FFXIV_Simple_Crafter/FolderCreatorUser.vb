@@ -7,14 +7,11 @@ Module FolderCreatorUser
     Dim ListOfCrafts As Object
     Dim baseFolderName As String
     Dim ChosenCraftDirectory As String
-
-    Sub New()
-
-        baseFolderName = "\Crafting Lists"
-
-    End Sub
+    Dim numOfCrafts As Integer
 
     Public Sub CreateOrAccessFolder()
+
+        baseFolderName = "\Crafting Lists"
 
         ' Set up file path location or confirm it already exists
         CurrentFilePathLocation = My.Computer.FileSystem.CurrentDirectory
@@ -58,28 +55,53 @@ Module FolderCreatorUser
     Public Sub printListOfCrafts()
 
         Dim i As Integer
-        Dim splitCraft() As String
+        Dim isComplete As Boolean
+        isComplete = False
+        Dim splitCraft1(), splitCraft2() As String
         i = 0
 
-        While i < ListOfCrafts.Length
+        While isComplete = False
 
-            splitCraft = Split(ListOfCrafts(i), baseFolderName + "\")
-            Console.WriteLine("Press " + i + " to setup variables to craft " + splitCraft(1))
+            Try
+
+                splitCraft1 = Split(ListOfCrafts(i), baseFolderName + "\")
+                splitCraft2 = Split(splitCraft1(1), ".txt")
+                Console.WriteLine("Press " + CStr(i) + " to setup variables to craft " + splitCraft2(0))
+
+            Catch ex As Exception
+
+                numOfCrafts = i - 1
+                isComplete = True
+
+            End Try
 
             i += 1
         End While
 
     End Sub
 
-    Public Function CraftingChosen(userOption As Integer)
+    Public Function CraftChosen(userOption As String)
 
-        If userOption > ListOfCrafts.Length Or userOption < 0 Then
+        Dim userOptionToInteger As Integer
+
+        Try
+
+            userOptionToInteger = CInt(userOption)
+
+        Catch ex As Exception
+
+            Return False
+
+        End Try
+
+
+        If CInt(userOption) > numOfCrafts Or CInt(userOption) < 0 Then
 
             Return False
 
         Else
 
-            ChosenCraftDirectory = ListOfCrafts(userOption)
+            ChosenCraftDirectory = ListOfCrafts(CInt(userOption))
             Return True
 
         End If
