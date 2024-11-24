@@ -2,6 +2,7 @@
 Imports System.Net.Mail
 Imports System.Reflection
 Imports System.Threading
+Imports Microsoft.VisualBasic.ApplicationServices
 Imports Microsoft.VisualBasic.Devices
 
 Module MainInterface
@@ -25,30 +26,14 @@ Module MainInterface
         FolderCreatorUser.CreateOrAccessFolder()
 
         'FFXIV_ID = "FINAL FANTASY XIV"
-
         'AppActivate(FFXIV_ID)
 
-        ConsoleMenuNavigation.PrintMenu()
-
-        FolderCreatorUser.printListOfCrafts()
-        Console.WriteLine("Enter an option from above:")
-
-        userOption = Console.ReadLine(userOption)
-
-        While FolderCreatorUser.CraftChosen(userOption)
-
-            Console.WriteLine("Please chose a valid option.")
-            userOption = Console.ReadLine(userOption)
-
-        End While
+        ConsoleMenuNavigation.PrintMenu(0)
 
 
         MappedKeys.Run("D:\\Dummy FXIV Crafter\\Keyboard-Mapping.txt")
 
-        'Console.WriteLine("The ability name is: " + MappedKeys.getAbilityName(2) + ". The mapping is: " + MappedKeys.getabilityKeyboardMapping(2))
-
-
-        CraftingRotation.setRotationFileName("D:\\Dummy FXIV Crafter\\Mastercraft_Level_70.txt")
+        CraftingRotation.setRotationFileName(FolderCreatorUser.getChosenCraftDirectory)
         CraftingRotation.readRotationTextFile()
         CraftingRotation.printTextFileToConsole()
 
@@ -70,8 +55,6 @@ Module MainInterface
         End While
 
     End Sub
-
-
 
     Private Sub RotationBuilder()
 

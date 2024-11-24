@@ -114,5 +114,11 @@ Module FolderCreatorUser
 
     End Function
 
+    Public Function getNumOfCrafts()
+
+        Return numOfCrafts
+
+    End Function
+
 
 End Module
