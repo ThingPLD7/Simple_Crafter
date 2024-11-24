@@ -32,7 +32,7 @@ Module MainInterface
         FFXIV_ID = "FINAL FANTASY XIV"
         AppActivate(FFXIV_ID)
 
-        MappedKeys.Run("D:\\Dummy FXIV Crafter\\Keyboard-Mapping.txt")
+        MappedKeys.Run("Keyboard-Mapping.txt")
 
         isRunning = True
         While isRunning

@@ -5,6 +5,11 @@ VisualStudioVersion = 17.5.33627.172
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "FFXIV_Simple_Crafter", "FFXIV_Simple_Crafter\FFXIV_Simple_Crafter.vbproj", "{8944B534-16DB-47B9-959A-2C95B2491F40}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{B90D5AC3-8F7D-4E16-B69F-D079428CED96}"
+	ProjectSection(SolutionItems) = preProject
+		FFXIV_Simple_Crafter\bin\Debug\Keyboard-Mapping.txt = FFXIV_Simple_Crafter\bin\Debug\Keyboard-Mapping.txt
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

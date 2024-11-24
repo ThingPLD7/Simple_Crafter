@@ -105,7 +105,7 @@ Module FolderCreatorUser
         Else
 
             ChosenCraftDirectory = ListOfCrafts(CInt(userOption))
-            tempSplit1 = Split(ListOfCrafts(CInt(userOption)), baseFolderName)
+            tempSplit1 = Split(ListOfCrafts(CInt(userOption)), baseFolderName + "\")
             tempSplit2 = Split(tempSplit1(1), ".txt")
             nameOfCraftPicked = tempSplit2(0)
             Return True

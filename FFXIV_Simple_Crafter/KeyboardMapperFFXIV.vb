@@ -17,7 +17,7 @@
 
             KeyboardMappingTextFile.setRotationFileName(keyboardMappingFilePath)
             KeyboardMappingTextFile.readRotationTextFile()
-            'KeyboardMappingTextFile.printTextFileToConsole()
+            KeyboardMappingTextFile.printTextFileToConsole()
 
             ReDim abilityName(KeyboardMappingTextFile.getLineCounter)
             ReDim abilityKeyboardMapping(KeyboardMappingTextFile.getLineCounter)
