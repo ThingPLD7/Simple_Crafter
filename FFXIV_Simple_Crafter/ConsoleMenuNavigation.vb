@@ -6,7 +6,7 @@
     Dim isPotTimer As Boolean
     Dim menuState As Integer
     Dim craftToMake As Integer
-
+    Dim amountToMake As Integer
 
     Sub New()
         isFoodTimer = False
@@ -37,13 +37,13 @@
                         Console.Clear()
                         Console.WriteLine("-------------------------------------------------------------")
                         Console.WriteLine("1. Craft an item")
-                        Console.WriteLine("2. Use food")
-                        Console.WriteLine("3. Use pots")
+                        Console.WriteLine("2. Use food: " + CStr(isFoodTimer))
+                        Console.WriteLine("3. Use pots: " + CStr(isPotTimer))
                         Console.WriteLine("-------------------------------------------------------------")
                         Console.Write("Please select something you would like to do: ")
                         userSelect = Console.ReadLine()
                         Try
-                            If CInt(userSelect) >= 0 And CInt(userSelect) < 3 Then
+                            If CInt(userSelect) >= 0 And CInt(userSelect) <= 3 Then
 
                                 menuState = CInt(userSelect)
                                 isCase0Complete = True
@@ -85,6 +85,8 @@
                                 craftToMake = CInt(userSelect)
                                 runMenu = False
                                 isCase1Complete = True
+                                FolderCreatorUser.CraftChosen(userSelect)
+                                AmountofCraftsToMake()
 
                             Else
 
@@ -188,6 +190,53 @@
 
         End While
     End Sub
+
+    Public Sub CraftingIsHappening(craftBeingMade As String, stepOn As Object, stepTotal As Object, onCraft As Object, craftToGo As Object)
+
+        Console.Clear()
+        Console.WriteLine("The item being crafted is: " + craftBeingMade)
+        Console.WriteLine("-------------------------------------------------------------")
+        Console.WriteLine("Items left to make: " + CStr(onCraft) + "/" + CStr(craftToGo))
+        Console.WriteLine("Step " + CStr(stepOn) + "/" + CStr(stepTotal))
+
+    End Sub
+
+    Private Sub AmountofCraftsToMake()
+
+        Dim isCraftsToMake As Boolean
+        isCraftsToMake = False
+
+        While isCraftsToMake = False
+
+            Try
+                Console.Clear()
+                Console.Write("Enter an amount of crafts to make: ")
+                amountToMake = CInt(Console.ReadLine())
+                isCraftsToMake = True
+
+            Catch ex As Exception
+
+                Console.Write("Please enter a valid number, press enter to continue.")
+                Console.ReadLine()
+
+            End Try
+
+        End While
+
+    End Sub
+
+
+    Public Sub setAmountToMake(tempAmount As Object)
+
+        amountToMake = tempAmount
+
+    End Sub
+
+    Public Function getAmountToMake()
+
+        Return amountToMake
+
+    End Function
 
     Public Function getFoodTimer()
 

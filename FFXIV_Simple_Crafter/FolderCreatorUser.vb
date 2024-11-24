@@ -8,6 +8,7 @@ Module FolderCreatorUser
     Dim baseFolderName As String
     Dim ChosenCraftDirectory As String
     Dim numOfCrafts As Integer
+    Dim nameOfCraftPicked As String
 
     Public Sub CreateOrAccessFolder()
 
@@ -66,6 +67,7 @@ Module FolderCreatorUser
 
                 splitCraft1 = Split(ListOfCrafts(i), baseFolderName + "\")
                 splitCraft2 = Split(splitCraft1(1), ".txt")
+                nameOfCraftPicked = splitCraft2(0)
                 Console.WriteLine("Press " + CStr(i) + " to setup variables to craft " + splitCraft2(0))
 
             Catch ex As Exception
@@ -120,5 +122,10 @@ Module FolderCreatorUser
 
     End Function
 
+    Public Function getNameOfCraftPicked()
+
+        Return nameOfCraftPicked
+
+    End Function
 
 End Module

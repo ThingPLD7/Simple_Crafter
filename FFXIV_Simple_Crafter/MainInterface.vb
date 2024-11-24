@@ -17,30 +17,46 @@ Module MainInterface
     Dim abilityRotationKeys() As String
     Dim abilityCooldownValues() As Double
 
+    Dim isRunning As Boolean
+
     Sub Main()
 
         ' Shift is "+{}"
         ' CTRL is "^{}"
         ' ALT is "%{}"
 
+        Dim exitOrContinue As String
+
         FolderCreatorUser.CreateOrAccessFolder()
 
-        'FFXIV_ID = "FINAL FANTASY XIV"
-        'AppActivate(FFXIV_ID)
-
-        ConsoleMenuNavigation.PrintMenu(0)
-
+        FFXIV_ID = "FINAL FANTASY XIV"
+        AppActivate(FFXIV_ID)
 
         MappedKeys.Run("D:\\Dummy FXIV Crafter\\Keyboard-Mapping.txt")
 
-        CraftingRotation.setRotationFileName(FolderCreatorUser.getChosenCraftDirectory)
-        CraftingRotation.readRotationTextFile()
-        CraftingRotation.printTextFileToConsole()
+        isRunning = True
+        While isRunning
 
-        amountToCraft = 36
+            ConsoleMenuNavigation.PrintMenu(0)
 
-        RotationBuilder()
-        Craft(amountToCraft)
+            CraftingRotation.setRotationFileName(FolderCreatorUser.getChosenCraftDirectory)
+            CraftingRotation.readRotationTextFile()
+
+            amountToCraft = ConsoleMenuNavigation.getAmountToMake()
+
+            RotationBuilder()
+            Craft(amountToCraft)
+
+            Console.Write("Enter 'exit' to quit or press anything to continue with another craft: ")
+            exitOrContinue = Console.ReadLine()
+
+            If exitOrContinue = "exit" Or exitOrContinue = "Exit" Then
+
+                isRunning = False
+
+            End If
+
+        End While
 
     End Sub
 
@@ -65,6 +81,7 @@ Module MainInterface
         index = 0
 
         While index < CraftingRotation.getLineCounter
+
             searchingIndex = 0
 
             abilityClean1 = Split(CraftingRotation.getLineInput(index), " <")
@@ -118,6 +135,8 @@ Module MainInterface
             craftingStep = 0
 
             While craftingStep < CraftingRotation.getLineCounter
+
+                CraftingIsHappening(FolderCreatorUser.getNameOfCraftPicked, craftingStep, CraftingRotation.getLineCounter, itemsMade, amountToCraft)
 
                 AppActivate(FFXIV_ID)
                 My.Computer.Keyboard.SendKeys(abilityRotationKeys(craftingStep), abilityCooldownValues(craftingStep))
