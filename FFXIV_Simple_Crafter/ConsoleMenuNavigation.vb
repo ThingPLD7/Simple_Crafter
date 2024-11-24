@@ -80,7 +80,7 @@
                                 menuState = 0
                                 isCase1Complete = True
 
-                            ElseIf CInt(userSelect) >= 0 And CInt(userSelect) < FolderCreatorUser.getNumOfCrafts Then
+                            ElseIf CInt(userSelect) >= 0 And CInt(userSelect) <= FolderCreatorUser.getNumOfCrafts Then
 
                                 craftToMake = CInt(userSelect)
                                 runMenu = False
