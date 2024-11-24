@@ -67,7 +67,6 @@ Module FolderCreatorUser
 
                 splitCraft1 = Split(ListOfCrafts(i), baseFolderName + "\")
                 splitCraft2 = Split(splitCraft1(1), ".txt")
-                nameOfCraftPicked = splitCraft2(0)
                 Console.WriteLine("Press " + CStr(i) + " to setup variables to craft " + splitCraft2(0))
 
             Catch ex As Exception
@@ -85,6 +84,8 @@ Module FolderCreatorUser
     Public Function CraftChosen(userOption As String)
 
         Dim userOptionToInteger As Integer
+        Dim tempSplit1(2) As String
+        Dim tempSplit2(2) As String
 
         Try
 
@@ -104,6 +105,9 @@ Module FolderCreatorUser
         Else
 
             ChosenCraftDirectory = ListOfCrafts(CInt(userOption))
+            tempSplit1 = Split(ListOfCrafts(CInt(userOption)), baseFolderName))
+            tempSplit2 = Split(tempSplit1(1), ".txt"))
+            nameOfCraftPicked = tempSplit2(0)
             Return True
 
         End If
@@ -125,6 +129,12 @@ Module FolderCreatorUser
     Public Function getNameOfCraftPicked()
 
         Return nameOfCraftPicked
+
+    End Function
+
+    Public Function getBaseFolderName()
+
+        Return baseFolderName
 
     End Function
 
